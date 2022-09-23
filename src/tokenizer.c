@@ -25,13 +25,48 @@ int non_space_char(char c){
 /* Returns a pointer to the first character of the next 
    space-separated word in zero-terminated str.  Return a zero pointer if 
    str does not contain any words. */
-char *word_start(char *str); 
+char *word_start(char *str){
+    int i;
+    while (*str != '\0') {
+        if (non_space_char(*str))
+            return str;
+        str++;
+    }
+
+    return 0;
+} 
 
 /* Returns a pointer terminator char following *word */
-char *word_terminator(char *word);
+char *word_terminator(char *word){
+    while (*word != '\0') {
+        if (space_char(word)) {
+            return word;
+        }
+        word++;  
+    }
+    
+    
+    return 0;
+}
 
 /* Counts the number of words in the string argument. */
-int count_words(char *str);
+int count_words(char *str) {
+    char start, end;
+    int total;
+    total = 0;
+    
+    
+    while (*str != '\0') {
+        start = *word_start(*str);
+        end = *word_terminator(*str);
+        if (start == end) {
+            break;
+        }
+        total++;
+        str += end;
+    }
+    
+}
 
 /* Returns a fresly allocated new zero-terminated string 
    containing <len> chars from <inStr> */
@@ -46,10 +81,40 @@ char *copy_str(char *inStr, short len);
      tokens[2] = "string" 
      tokens[3] = 0
 */
-char **tokenize(char* str);
+char **tokenize(char* str) {
+    char **tokens, start, end;
+    int i;
+    i = 0;
+    while (str != '\0')
+    {
+        if (non_space_char(str)) {
+            start = word_start(str);
+        }
+        if (space_char(str)){
+            end = word_terminator(str);
+        }
+        if (start != end){
+            tokens[i] = end - start;
+            str += end;
+            i++;
+        } else
+            str++;
+        
+    }
+    
+}
 
 /* Prints all tokens. */
-void print_tokens(char **tokens);
+void print_tokens(char **tokens){
+    while (tokens != '\0')
+    {
+        puts(tokens);
+        tokens++;
+    }
+    
+}
 
 /* Frees all tokens and the vector containing themx. */
-void free_tokens(char **tokens);
+void free_tokens(char **tokens){
+    tokens = NULL;
+}
