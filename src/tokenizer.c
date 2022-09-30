@@ -1,5 +1,6 @@
 #include "tokenizer.h"
 #include "stdio.h"
+#include "malloc.h"
 
 /* Return true (non-zero) if c is a whitespace characer
    ('\t' or ' ').  
@@ -8,8 +9,7 @@ int space_char(char c){
     if (c == ' ' || c == '\t'){
         return 1;
     }
-    return 0;
-    
+    return 0;  
 }
 
 /* Return true (non-zero) if c is a non-whitespace 
@@ -26,13 +26,11 @@ int non_space_char(char c){
    space-separated word in zero-terminated str.  Return a zero pointer if 
    str does not contain any words. */
 char *word_start(char *str){
-    int i;
     while (*str != '\0') {
         if (non_space_char(*str))
             return str;
         str++;
     }
-
     return 0;
 } 
 
@@ -44,8 +42,6 @@ char *word_terminator(char *word){
         }
         word++;  
     }
-    
-    
     return 0;
 }
 
@@ -70,7 +66,17 @@ int count_words(char *str) {
 
 /* Returns a fresly allocated new zero-terminated string 
    containing <len> chars from <inStr> */
-char *copy_str(char *inStr, short len);
+char *copy_str(char *inStr, short len) {
+    char *copy = malloc(len);
+    int index = 0;
+    while (len != 0) {
+        copy + index = inStr + index;
+        index++
+        len -= 1;
+    }
+    return *copy;
+    
+}
 
 /* Returns a freshly allocated zero-terminated vector of freshly allocated 
    space-separated tokens from zero-terminated str.
@@ -83,31 +89,13 @@ char *copy_str(char *inStr, short len);
 */
 char **tokenize(char* str) {
     char **tokens, start, end;
-    int i;
-    i = 0;
-    while (str != '\0')
-    {
-        if (non_space_char(str)) {
-            start = word_start(str);
-        }
-        if (space_char(str)){
-            end = word_terminator(str);
-        }
-        if (start != end){
-            tokens[i] = end - start;
-            str += end;
-            i++;
-        } else
-            str++;
-        
-    }
+    
     
 }
 
 /* Prints all tokens. */
 void print_tokens(char **tokens){
-    while (tokens != '\0')
-    {
+    while (tokens != '\0') {
         puts(tokens);
         tokens++;
     }
@@ -116,5 +104,5 @@ void print_tokens(char **tokens){
 
 /* Frees all tokens and the vector containing themx. */
 void free_tokens(char **tokens){
-    tokens = NULL;
+    
 }
